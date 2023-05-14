@@ -132,6 +132,8 @@ function dropBombs() {
         if (bombs[i].offsetTop == randomExplode || bombs[i].offsetTop > window.innerHeight - 10) {
             explodeB(bombs[i]);
             reset(bombs[i]);
+            document.getElementById("score").innerHTML="score:"+score; 
+            // document.getElementById('score').innerHTML="score:";
             console.log(score);
         } else {
             if (objectCollision(player, bombs[i]) != 0 && !immortal) {

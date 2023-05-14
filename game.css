@@ -17658,6 +17658,10 @@ ul {
 	height: 512;
 }
 .score{
+	top: 15vh;
+    /* left: 0; */
+    right: 15wh;
+    z-index: 999;
     position: fixed;
 	color: yellow;
 	text-transform: uppercase;

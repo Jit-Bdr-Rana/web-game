@@ -155,9 +155,10 @@ aside ul {
 	height: 93.8px;
 	width: 86px;
 	background-size: contain;
-	top: 0vh;
+	top: -1vh;
 	left: 45%;
 	animation: move-right 5s linear infinite;
+	z-index: 9999999;
 }
 @keyframes move-right {
 	0%{

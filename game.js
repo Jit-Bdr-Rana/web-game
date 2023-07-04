@@ -16,7 +16,7 @@ var sky = [];
 var immortal = false;
 var lives = [];
 var fireMode = false;
-
+var alier=document.getElementById('alien')
 function fireArrow() {
     var arrow = document.createElement('div');
     // element.style.border = 'solid black';
@@ -95,10 +95,12 @@ function reset(bomb) {
 }
 
 function createBombs() {
+    // alert('crate bomb')
     var element = document.createElement('div');
     // element.style.border = 'solid black';
     element.className = 'bomb';
     document.body.appendChild(element);
+  
     reset(element);
     bombs.push(element);
 }
@@ -159,12 +161,13 @@ function dropBombs() {
     if (gamePaused) {
         return;
     }
-    if (gameTicks > 1000 && speedMult < 5) {
+    if (gameTicks > 50000 && speedMult < 5) {
         createBombs();
         speedMult += 1;
         // console.log('gametick');
         gameTicks = 0;
     }
+
     gameTicks += 1;
     for (var i = 0; i < bombs.length; i++) {
         var topOfBomb = parseFloat(bombs[i].offsetTop);
@@ -196,7 +199,11 @@ function dropBombs() {
             }
             else {
                 var newPos = topOfBomb + 1 * speedMult;
+                // setTimeout(()=>{
                 bombs[i].style.top = newPos + 'px';
+                if(newPos<70){
+                    bombs[i].style.left =(alier.offsetLeft+35)+ 'px';
+                }
             }
         }
     }
@@ -205,11 +212,16 @@ function dropBombs() {
 
 // prep for starting the game
 function startGame() {
-    requestAnimFrame(startGame);
+     alier=document.getElementById('alien')
+     requestAnimFrame(startGame);
     start[0].style.display = 'none';
+
+  setTimeout(()=>{
+    // alert('i am called')
     // generateBombs();
     move();
     dropBombs();
+  },2000)
 }
 
 function keyup(event) {
@@ -338,13 +350,13 @@ function myLoadFunction() {
 }
 // not mine : ) ref: codepen from panas cunt 
 window.requestAnimFrame = (function () {
-    return window.requestAnimationFrame ||
+    return window.requestAnimationFrame 
         window.webkitRequestAnimationFrame ||
         window.mozRequestAnimationFrame ||
         window.oRequestAnimationFrame ||
         window.msRequestAnimationFrame ||
         function (callback) {
-            window.setTimeout(callback, 1000 / 60);
+            window.setTimeout(callback, 1000/60);
         };
 })();
 

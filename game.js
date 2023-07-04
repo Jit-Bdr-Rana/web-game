@@ -161,7 +161,7 @@ function dropBombs() {
     if (gamePaused) {
         return;
     }
-    if (gameTicks > 50000 && speedMult < 5) {
+    if (gameTicks > 1000 && speedMult < 5) {
         createBombs();
         speedMult += 1;
         // console.log('gametick');

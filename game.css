@@ -155,7 +155,7 @@ aside ul {
 	height: 93.8px;
 	width: 86px;
 	background-size: contain;
-	top: 15vh;
+	top: 0vh;
 	left: 45%;
 	animation: move-right 5s linear infinite;
 }

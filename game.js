@@ -54,16 +54,17 @@ function explodeB(bomb) {
         explode.remove()
     }, 100);
     if (objectCollision(player, explode) && !immortal) {
-        immortal = true;
-        player.classList.add('hit');
-        lifeCount--;
-        lives[0].remove();
-        if (lifeCount == 0) {
-            gameOver();
-        } setTimeout(function () {
-            immortal = false;
-            player.classList.remove('hit')
-        }, 1000);
+        // alert('hit')
+        // immortal = true;
+        // player.classList.add('hit');
+        // lifeCount--;
+        // lives[0].remove();
+        // if (lifeCount == 0) {
+        //     gameOver();
+        // } setTimeout(function () {
+        //     immortal = false;
+        //     player.classList.remove('hit')
+        // }, 1000);
 
     } else {
         score++;
@@ -103,14 +104,53 @@ function createBombs() {
 }
 
 function gameOver() {
-    gamePaused = true;
-    player.className = 'character dead';
-    var element = document.createElement('div');
-    element.className = 'start';
-    var content = document.createTextNode('Game Over.. Restart');
-    element.appendChild(content);
-    element.addEventListener('click', () => location.reload());
-    document.body.appendChild(element);
+     try{
+         setTimeout(()=>{
+            gamePaused = true;
+            player.className = 'character dead';
+            var element = document.createElement('div');
+            element.className = 'start';
+            element.style.display = 'flex';
+            element.style.top=43+'px'
+            element.style.flexDirection = 'column';
+            element.style.alignItems = 'center';
+            element.style.justifyContent = 'center';
+            
+            var content = document.createTextNode('Game Over.. Restart');
+            console.log(localStorage.getItem('score'));
+            const oldScore = JSON.parse(localStorage.getItem('score') || '[]');
+            const username=window.prompt('Enter your user name')
+            const newScore = [...oldScore, {username,score}];
+            localStorage.setItem('score', JSON.stringify(newScore));
+            // Example array of objects
+      // Finding the object with the maximum score
+           var maxScoreObj = newScore.reduce(function(maxObj, obj) {
+             return obj.score > maxObj.score ? obj : maxObj;
+          }, { score: -Infinity });
+            
+            var restartButton = document.createElement('button');
+            restartButton.className = 'restart-button';
+            restartButton.style.color = 'red';
+            restartButton.appendChild(document.createTextNode('Restart'));
+            
+            var highestScoreText = document.createElement('p');
+            highestScoreText.style.color = 'black';
+            highestScoreText.appendChild(document.createTextNode('All-time highest score is from  ' +maxScoreObj.username+':'+maxScoreObj.score));
+            
+            element.appendChild(content);
+            element.appendChild(document.createElement('br'));
+            element.appendChild(restartButton);
+            element.appendChild(document.createElement('br'));
+            element.appendChild(highestScoreText);
+            
+            restartButton.addEventListener('click', () => location.reload());
+            
+            document.body.appendChild(element);
+         },500)
+        
+     }catch(e){
+        console.log(e)
+     }
     return;
 
 }
@@ -122,7 +162,7 @@ function dropBombs() {
     if (gameTicks > 1000 && speedMult < 5) {
         createBombs();
         speedMult += 1;
-        console.log('gametick');
+        // console.log('gametick');
         gameTicks = 0;
     }
     gameTicks += 1;
@@ -134,12 +174,25 @@ function dropBombs() {
             reset(bombs[i]);
             document.getElementById("score").innerHTML="score:"+score; 
             // document.getElementById('score').innerHTML="score:";
-            console.log(score);
+            // console.log(score);
         } else {
             if (objectCollision(player, bombs[i]) != 0 && !immortal) {
+                // alert('hit g')
                 explodeB(bombs[i]);
                 reset(bombs[i]);
-                console.log('hi');
+                immortal = true;
+                player.classList.add('hit');
+                lifeCount--;
+                lives[0].remove();
+                if (lifeCount == 0) {
+                    // alert('game over')
+                    gameOver();
+                } setTimeout(function () {
+                    // alert('remove')
+
+                    immortal = false;
+                    player.classList.remove('hit')
+                }, 1000);
             }
             else {
                 var newPos = topOfBomb + 1 * speedMult;
